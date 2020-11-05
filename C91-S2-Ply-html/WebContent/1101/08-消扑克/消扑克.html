@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title>消扑克</title>
+<script type="text/javascript" src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<link href="css/matchgame.css" rel="stylesheet">
+</head>
+<body>
+	<section id="game">
+		<div id="cards">
+			<div class="card" onclick="cg.open(0)"></div>
+			<div class="card" onclick="cg.open(1)"></div>
+			<div class="card" onclick="cg.open(2)"></div>
+			<div class="card" onclick="cg.open(3)"></div>
+			<div class="card" onclick="cg.open(4)"></div>
+			<div class="card" onclick="cg.open(5)"></div>
+			<div class="card" onclick="cg.open(6)"></div>
+			<div class="card" onclick="cg.open(7)"></div>
+			<div class="card" onclick="cg.open(8)"></div>
+			<div class="card" onclick="cg.open(9)"></div>
+			<div class="card" onclick="cg.open(10)"></div>
+			<div class="card" onclick="cg.open(11)"></div>
+		</div>
+		
+	</section>
+	<button onclick="refresh()">重新开始</button>
+	<script type="text/javascript">
+	
+		function getCardImg(num){
+			var f = Math.floor(num / 13);
+			var n = num % 13;
+			f *= 120;
+			n *= 80;
+			return "-" + n + "px -" + f + "px";
+		}
+		
+		function ClearGame(){
+			//
+			this.cards = new Array(12);
+			//
+			this.card1 = -1;
+			this.card2 = -1;
+			
+			this.start = function(){
+				$.each(this.cards, i=>{
+					var n = Math.random() * 52;
+					this.cards[i] = Math.floor(n);
+					
+				});
+				
+				//
+				//
+				var c06 =this.cards.slice(0,6);
+				//
+				this.cards.splice(6,6);
+				$.each(c06, i=>{
+					this.cards.push(c06[i]);
+				});
+				
+				//
+				$.each(this.cards, i=>{
+					//
+					var n = Math.floor(Math.random() * 12);
+					var temp = this.cards[i];
+					this.cards[i] = this.cards[n];
+					this.cards[n] = temp;
+				});
+			}
+			
+			//
+			this.open = function(index){
+				//
+				var img = getCardImg(this.cards[index]);
+				$(".card").eq(index).css("background-position", img);
+				
+				if(this.card1 == -1){
+					//
+					this.card1 = index;
+				}else{
+					//
+					this.card2 = index;
+					//
+					if(this.cards[this.card1] == this.cards[this.card2]){
+						//
+						$(".card").eq(this.card1).css("visibility", "hidden");
+						$(".card").eq(this.card2).css("visibility", "hidden");
+						//
+						this.card1 = -1;
+						this.card2 = -1;
+					}else{
+						window.setTimeout(()=>{
+							//
+							$(".card").eq(this.card1).css("background-position", "0px -480px");
+							$(".card").eq(this.card2).css("background-position", "0px -480px");
+							//
+							this.card1 = -1;
+							this.card2 = -1;
+						}, 1000);
+					}
+				}
+			}
+			
+			//
+			this.display = function(){
+				$.each(this.cards, i=>{
+					var img = getCardImg(this.cards1[i]);
+					$(".card").eq(i).css("background-position", img);
+				});
+			}
+			
+		}
+		
+		var cg = new ClearGame();
+		cg.start();
+		
+		function refresh(){
+			cg.start();
+		}
+	</script>
+</body>
+</html>

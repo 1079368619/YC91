@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<style>
+.cls{
+	border: 5px blue solid
+}
+</style>
+
+<script type="text/javascript">
+	//
+	$(function(){
+		$("li").css("background-color", "red");
+		
+		var jt = $(title);
+		jt.css("color", "red");
+		
+		var dt = jt[0];
+		
+		dt.style.backgroundColor = "blue";
+		
+		dt.style["backgroundColor"] = "green";
+		
+		var arr = [100,200,300];
+		
+		jQuery.each( arr, function(i){
+			console.info(arr[i]);
+		});//
+		
+		$("li").eq(2).css("border","1px black solid");
+		
+		console.info($("li").parent());
+		console.info($("li").parents());
+		
+		console.info($("mli").next().text());
+		console.info($("mli").prev().text());
+
+		console.info($("title").attr("align"));
+		console.info($("title").prop("align"));
+		
+		console.info($("title").attr("notattr"));
+		console.info($("title").prop("notattr"));
+		
+		console.info($("title").prop("class"));
+		
+		$("title").addClass("sty1");
+		$("title").addClass("sty2");
+		
+		$("title").removeClass("test");
+	});
+</script>
+</head>
+<body>
+<p>
+	<h3 id="title" class="test" align="left" notattr="test">古诗</h3>
+	<ul>
+		<li>纳兰性德《木兰词·拟古决绝词柬友》
+			人生若只如初见，何事秋风悲画扇。
+		<li>李之仪《卜算子·我住长江头》
+			只愿君心似我心，定不负相思意。
+		<li id="mli">温庭筠《南歌子词二首 / 新添声杨柳枝词》
+			玲珑骰子安红豆，入骨相思知不知。
+		<li>崔护《题都城南庄》
+			去年今日此门中，人面桃花相映红。
+	</ul>
+	<button onclick='$("#title").toggleClass("cls");'>
+		切换class
+	</button>
+</p>
+</body>
+</html>
