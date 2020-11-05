@@ -35,7 +35,17 @@ function Cal(){
 	};
 	//按键
 	this.number = function(num){
-		this.display = this.display * 10 + new Number(num);
+		var str = String(res.innerText);
+		if(str.indexOf(".") < 0){
+			this.display = this.display * 10 + new Number(num);
+		}else{
+			if(str.substr(str.length - 1, str.length) === "."){
+				this.display = this.display + String(num);
+				console.info(this.display);
+			}else{
+				this.display = this.display + String(num);
+			}
+		}
 	};
 	
 	//按下=键
@@ -84,12 +94,12 @@ function onNumber(e){
 function onOperate(e){
 	var btn = e.srcElement;
 	var operat = btn.innerText;
-	res.innerText = '';
 	cal.operate(operat);
+	res.innerText = '';
 };
 
 //按=
-function onComput(e){
+function onComput(){
 	cal.comput();
 	res.innerText = cal.result;
 	cal.display = cal.result;
@@ -105,23 +115,43 @@ function onC(){
 //按下<-
 function fun(){
 	var str = String(cal.display);
+	//
 	if(str.length == 1){
 		cal.display = 0;
 		res.innerText = 0;
-		return;
 	}else if(str !== "0"){
 		str = str.substr(0, str.length - 1);
-		var num = parseInt(str);
+		var num = parseFloat(str);
 		cal.display = num;
 		res.innerText = num;
-	}else{
-		return;
 	}
 };
 
 function Xiaoshudian(){
-	
+	var num = parseInt(res.innerText);
+    var str = String(num);
+    if ((str.split(".").length - 1) >= 1) {
+        alert("小数点点多了")
+    } else {
+        str = str + "."
+    }
+    cal.display = str;
+    res.innerText = str;
 };
+
+//按下正负数转换
+function no() {
+    var num = parseInt(res.innerText);
+    //正负数转换
+    if (num < 0) {
+        num = Math.abs(num);
+    } else if (num >= 0) {
+        num = -num;
+    }
+    cal.display = num;
+    res.innerText = num;
+
+}
 </script>
 </head>
 <body>
@@ -131,7 +161,7 @@ function Xiaoshudian(){
 		</tr>
 		<tr>
 			<td><button onclick="onC()">C</button></td>
-			<td><button>+/-</button></td>
+			<td><button onclick="no()">+/-</button></td>
 			<td><button onclick="fun()">&lt;-</button></td>
 			<td><button onclick="onOperate(event)">/</button></td>
 		</tr>
@@ -155,8 +185,8 @@ function Xiaoshudian(){
 		</tr>
 		<tr>
 			<td colspan="2"><button onclick="onNumber(event)">0</button></td>
-			<td><button>.</button></td>
-			<td><button onclick="onComput(event)">=</button></td>
+			<td><button onclick="Xiaoshudian()">.</button></td>
+			<td><button onclick="onComput()">=</button></td>
 		</tr>
 	</table>
 </body>

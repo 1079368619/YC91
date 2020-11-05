@@ -24,9 +24,10 @@
 		</div>
 		
 	</section>
-	<button onclick="refresh()">重新开始</button>
 	<script type="text/javascript">
-	
+		//用数字表示牌号,0 ~ 51
+		//0 ~ 12 黑桃 13 ~ 25 红桃 26 ~ 38 梅花 39 ~ 51 方块
+		//45 45 % 3 = 6    45 / 13 = 3 方块7
 		function getCardImg(num){
 			var f = Math.floor(num / 13);
 			var n = num % 13;
@@ -36,31 +37,33 @@
 		}
 		
 		function ClearGame(){
-			//
+			//定义12张扑克牌
 			this.cards = new Array(12);
-			//
+			//定义2次点开的牌
 			this.card1 = -1;
 			this.card2 = -1;
-			
+			//开始游戏
 			this.start = function(){
+				//随机生成12张牌
+				//i=> --> function(i){} 箭头函数
 				$.each(this.cards, i=>{
 					var n = Math.random() * 52;
 					this.cards[i] = Math.floor(n);
 					
 				});
 				
-				//
-				//
+				//复制前六张牌到后面
+				//复制前6个
 				var c06 =this.cards.slice(0,6);
-				//
+				//删除后六个
 				this.cards.splice(6,6);
 				$.each(c06, i=>{
 					this.cards.push(c06[i]);
 				});
 				
-				//
+				//打乱纸牌
 				$.each(this.cards, i=>{
-					//
+					//随机与第n张牌交换
 					var n = Math.floor(Math.random() * 12);
 					var temp = this.cards[i];
 					this.cards[i] = this.cards[n];
@@ -68,40 +71,52 @@
 				});
 			}
 			
-			//
+			//点开纸牌,index表示当前点击的牌的下标(编号 0 ~ 11)
 			this.open = function(index){
-				//
+				if(this.card1 != -1 && this.card2 != -1){
+					return;
+				}
+				//翻开
 				var img = getCardImg(this.cards[index]);
 				$(".card").eq(index).css("background-position", img);
 				
 				if(this.card1 == -1){
-					//
+					//记录翻开的第一张牌
 					this.card1 = index;
 				}else{
-					//
+					//记录翻开的第二张牌
 					this.card2 = index;
-					//
-					if(this.cards[this.card1] == this.cards[this.card2]){
+					if(this.card1 != this.card2){
 						//
-						$(".card").eq(this.card1).css("visibility", "hidden");
-						$(".card").eq(this.card2).css("visibility", "hidden");
-						//
-						this.card1 = -1;
-						this.card2 = -1;
+						if(this.cards[this.card1] == this.cards[this.card2]){
+							window.setTimeout(()=>{
+								//相同,消失
+								$(".card").eq(this.card1).css("visibility", "hidden");
+								$(".card").eq(this.card2).css("visibility", "hidden");
+								this.cards[this.card1] = -2;
+								this.cards[this.card2] = -2;
+								
+								this.card1 = -1;
+								this.card2 = -1;
+							}, 300);
+						}else{
+							window.setTimeout(()=>{
+								//不同,背过去
+								$(".card").eq(this.card1).css("background-position", "0px -480px");
+								$(".card").eq(this.card2).css("background-position", "0px -480px");
+								//不同,背过去
+								this.card1 = -1;
+								this.card2 = -1;
+							}, 300);
+						}
 					}else{
-						window.setTimeout(()=>{
-							//
-							$(".card").eq(this.card1).css("background-position", "0px -480px");
-							$(".card").eq(this.card2).css("background-position", "0px -480px");
-							//
-							this.card1 = -1;
-							this.card2 = -1;
-						}, 1000);
+						this.card2 = -1;
 					}
 				}
+				//console.info(this.cards);
 			}
 			
-			//
+			//验证
 			this.display = function(){
 				$.each(this.cards, i=>{
 					var img = getCardImg(this.cards1[i]);
@@ -114,9 +129,7 @@
 		var cg = new ClearGame();
 		cg.start();
 		
-		function refresh(){
-			cg.start();
-		}
+		
 	</script>
 </body>
 </html>
