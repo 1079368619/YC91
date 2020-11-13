@@ -12,12 +12,16 @@ public class CheckUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		//
+		String username = request.getParameter("username");
+		if("zhangsan".equals(username)) {
+			response.getWriter().append("false");
+		}else {
+			response.getWriter().append("true");
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

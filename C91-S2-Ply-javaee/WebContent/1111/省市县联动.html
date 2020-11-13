@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>省市县联动</title>
+<style type="text/css">
+select{
+	width:100px
+}
+</style>
+<script type="text/javascript">
+</script>
+</head>
+<body>
+<div id="main">
+	<h3>AJAX实现省市联动</h3>
+	省:<select id="sheng"></select>
+	市:<select id="shi"></select>
+	县:<select id="xian"></select>
+</div>
+
+<hr>
+<dl>
+	<dt>要求:
+	<dd>
+		<ol>
+			<li>使用 AJAX 方式从后台获取省市县的数据, 加载到下拉列表选项中
+			<li>在选择 省 和 市 时, 发送 AJAX 请求, 获取对应的 市 和 县 的数据, 加载到对应的下拉列表选项中
+		</ol>
+</dl>
+<dl>
+	<dt>提示: 关于数据返回格式
+	<dd>
+		<ol>
+			<li>可以使用字符串拼接成一个字符串, 例如: "北京,天津,湖南,湖北...", 然后用JS进行字符串解析( split )
+			<li>也可以考虑使用拼接 JSON 格式 字符串, 例如: "['北京','天津','湖南','湖北'....]", 然后用 eval 函数, 或 JSON.parse函数, 将其转换成 JS数组.
+		</ol>
+</dl>
+</body>
+</html>
