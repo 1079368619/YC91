@@ -1,29 +1,30 @@
 package com.yc.javaee.d1111;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-@WebServlet("/HomeWork.s")
+@WebServlet("/Homework.s")
 public class HomeWork extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-    
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
+			throws ServletException, IOException {
 
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html; charset=utf-8");
-		PrintWriter out = response.getWriter();
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
+			throws ServletException, IOException {
+		resp.setContentType("text/html; charset=utf-8");
+		PrintWriter out = resp.getWriter();
 
-		String x = request.getParameter("x");
-		String z = request.getParameter("z");
-		String y = request.getParameter("y");
+		String x = req.getParameter("x");
+		String z = req.getParameter("z");
+		String y = req.getParameter("y");
 		try {
 			double a = Double.parseDouble(x), b = Double.parseDouble(y);
 			double c = 0;
@@ -43,14 +44,13 @@ public class HomeWork extends HttpServlet {
 			}
 			out.print("<h2>" + x + z + y + " = " + c + " </h2>");
 		} catch (NumberFormatException e) {
-			// Òì³£ÈÕÖ¾¸ø³ÌĞòÔ±¿´
+			// å¼‚å¸¸æ—¥å¿—ç»™ç¨‹åºå‘˜çœ‹
 			e.printStackTrace();
-			out.print("<h2>ÊäÈëµÄÊı×Ö´íÎó£¡£¡</h2>");
+			out.print("<h2>è¾“å…¥çš„æ•°å­—é”™è¯¯ï¼ï¼</h2>");
 		} catch (Exception e) {
-			// Òì³£ÈÕÖ¾¸ø³ÌĞòÔ±¿´
+			// å¼‚å¸¸æ—¥å¿—ç»™ç¨‹åºå‘˜çœ‹
 			e.printStackTrace();
-			out.print("<h2>ÏµÍ³·±Ã¦£¬ÇëÉÔºóÔÙÊÔ£¡£¡</h2>");
+			out.print("<h2>ç³»ç»Ÿç¹å¿™ï¼Œè¯·ç¨åå†è¯•ï¼ï¼</h2>");
 		}
 	}
-
 }

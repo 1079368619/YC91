@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>企业MIS</title>
+<link rel="stylesheet" href="style.css">
+<script type="text/javascript">
+function login() {
+	var url = "login.s?account=" + account.value + "&pwd=" + pwd.value; 
+	post(url , function(){
+		//
+		if(xmlhttp.readystate==4 && xmlhttp.status==200){
+			if(xmlhttp.responseText == 1){
+				alert("登录成功");
+			}else{
+				alert("登录失败");
+			}
+		}
+	});
+	doAjax("FilterNameServlet?name=" + txt1.value);
+}
+
+//定义 XMLHttpRequest 
+var xmlhttp;
+function post(url, callback) {
+	try {
+		xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+	} catch (e) {
+		try {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		} catch (e) {
+			try {
+				xmlhttp = new XMLHttpRequest();
+			} catch (e) {
+				alert("浏览器不支持 AJAX！");
+			}
+		}
+	}
+
+	// 回调函数， 当收到服务器返回的数据时，执行的函数
+	xmlhttp.onreadystatechange = callback;
+	xmlhttp.open("post", url, true); // 第三个参数 表示异步执行
+	xmlhttp.send(null);
+
+}
+
+
+</script>
+</head>
+<body>
+	<h2>登录页面</h2>
+	<form action="main.html">
+		账号：<input id="account" value=""><br>
+		密码：<input id="pwd"><br>
+		<button type="button" onclick="login()">登录</button>
+		<button formaction="register.html">注册</button>
+	</form>
+</body>
+<script type="text/javascript">
+//
+var la = document.cookie.replayce(/.*loginedAccount=(\w+).*/,"$1");
+if(la){
+	console.info("=========="+la);
+	account.value=la;
+}
+</script>
+</html>
