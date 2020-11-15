@@ -18,6 +18,11 @@ public class LoginServlet extends HttpServlet {
 		String account = request.getParameter("account");
 		//
 		String pwd = request.getParameter("pwd");
+		String rvcode = request.getParameter("vcode");
+		String svcode = (String) request.getSession().getAttribute("vcode");
+		if(svcode.equalsIgnoreCase(rvcode) == false) {
+			response.getWriter().append("-1");
+		}
 		if("zhangsan".equals(account) && "123".equals(pwd)) {
 			//
 			HttpSession session = request.getSession();
