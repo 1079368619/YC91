@@ -1,6 +1,8 @@
 package com.yc.javaee.d1113;
 
 import java.io.IOException;
+import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -18,11 +20,32 @@ public class LoginServlet extends HttpServlet {
 		String account = request.getParameter("account");
 		//
 		String pwd = request.getParameter("pwd");
+		//
 		String rvcode = request.getParameter("vcode");
+		//
 		String svcode = (String) request.getSession().getAttribute("vcode");
+		//
+		Date svtime = (Date) request.getSession().getAttribute("vtime");
+		
+		//
+		long time = System.currentTimeMillis() - svtime.getTime();
+		//
+		if( (time / 1000) > 10) {
+			response.getWriter().append("-2");
+			return;
+		}
+		
+		//
 		if(svcode.equalsIgnoreCase(rvcode) == false) {
 			response.getWriter().append("-1");
+			return;
 		}
+		/*if(request.getSession(false)==null) {
+			response.getWriter().append("-2");
+			System.out.println("Session已过期！");
+		} else {
+		    System.out.println("Session存在");
+		}*/
 		if("zhangsan".equals(account) && "123".equals(pwd)) {
 			//
 			HttpSession session = request.getSession();

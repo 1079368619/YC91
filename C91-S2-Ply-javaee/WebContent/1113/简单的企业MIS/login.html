@@ -21,6 +21,8 @@ function login() {
 				location.href = "main.html";
 			}else if(xmlhttp.responseText == -1){
 				alert("验证码错误！");
+			}else if(xmlhttp.responseText == -2){
+				alert("验证码已过期！");
 			}else{
 				alert("登录失败");
 			}
@@ -60,13 +62,26 @@ function post(url, callback) {
 		密码：<input id="pwd"><br>
 		验证码：
 			<img alt="" src="../../VerifyCodeServlet" height="20px"
-				onclick="this.src='../../VerifyCodeServlet?a=' + new Date()">
-			<input id="vcode" maxlength="4" placeholder="点击图片更换验证码"><br>
+				onclick="this.src='../../VerifyCodeServlet?a=' + new Date(); time=10">
+			<input id="vcode" maxlength="4" placeholder="点击图片更换验证码">
+			<span id="timer">10</span><br>
 		<button type="button" onclick="login()">登录</button>
 		<button formaction="register.html">注册</button>
 	</form>
 </body>
 <script type="text/javascript">
+//
+var time = 10;
+
+setInterval(function(){
+	if(time > 0){
+		time --;
+		timer.innerText = time;
+	}else{
+		timer.innerText = "请刷新验证码";
+	}
+}, 1000)
+
 //
 var la = document.cookie.replace(/.*loginedAccount=(\w+).*/,"$1");
 
