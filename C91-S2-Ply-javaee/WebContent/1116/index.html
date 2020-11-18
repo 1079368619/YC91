@@ -13,95 +13,138 @@ select, button {
 </style>
 <script type="text/javascript"
 	src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script type="text/javascript" src="js/ajax.js"></script>
+<script type="text/javascript">
+//
+var page = 1;
+//
+var pages = 0;
+//
+var pnumber = 10;
+
+function queryPage(){
+	doAjax("../ssQueryPage.s?page=" + page + "&pnumber=" + pnumber, 
+		function(responseText){
+			//
+			var list = JSON.parse(responseText);
+			//
+			$("#singers tr:nth-child(1)").nextAll().remove();
+			var $table = $("#singers");
+			for(var i=0;i<list.length;i++){
+				var ss = list[i];
+				$table.append("<tr><td>"
+						+ss.id+"</td><td>"
+						+ss.name+"</td><td>"
+						+ss.category+"</td><td>"
+						+ss.members+"</td><td>"
+						+ss.nation+"</td><td>"
+						+ss.birthday+"</td><td>"
+						+ss.head+"</td><td>"
+						+ss.likes+"</td><td>"
+						+"<button type='button'>删除</button></td></tr>");
+				
+				/* if(ss.members == undefined){
+					$table.append("</td><td>");
+				}else{
+					$table.append(ss.members+"</td><td>");
+				}
+				$table.append(ss.nation+"</td><td>"
+						+ss.birthday+"</td><td>"
+						+ss.head+"</td><td>"
+						+ss.likes+"</td></tr>"); */
+			}
+	});
+}
+
+function queryCount(){
+	doAjax("../ssQueryCount.s",
+			function(responseText){
+				var count = parseInt(responseText);
+				pages = parseInt(count / 10);
+				if(count % 10 > 0){
+					pages ++;
+				}
+	});
+}
+function frist(){
+	page = 1;
+	queryPage();
+}
+
+function next(){
+	page += 1;
+	queryPage();
+}
+
+function previous(){
+	page -= 1;
+	queryPage();
+}
+
+function last(){
+	page = pages;
+	queryPage();
+}
+
+function query(){
+	
+}
+
+$(function(){
+	queryPage();
+	queryCount();
+	
+})
+ 
+
+</script>
 </head>
 <body>
 	<div style="text-align: center">
-		歌手：<input> 分类：<select><option>分类选项</option></select> 地区：<input>
-		<button>查询</button>
+		歌手：<input> 
+		分类：<select> <option>分类选项</option> </select> 
+		地区：<input>
+		<button onclick="query()">查询</button>
 	</div>
-	<table id="singers" border="1" style="width: 100%">
+	<table id="singers" border="1" style="width: 100%;text-align: center">
 		<tbody>
 			<tr>
-				<th width="15%">ID</th>
-				<th width="15%">地区</th>
-				<th width="35%">分类</th>
-				<th width="35%">名称</th>
+				<th sort="true" width="10%">ID</th>
+				<th sort="true" width="10%">姓名</th>
+				<th sort="true" width="10%">分类</th>
+				<th sort="true" width="10%">成员</th>
+				<th sort="true" width="10%">地区</th>
+				<th sort="true" width="15%">生日</th>
+				<th width="15%">头像</th>
+				<th sort="true" width="10%">粉丝数</th>
+				<th width="10%">操作</th>
 			</tr>
 			<tr>
-				<td>2</td>
-				<td>香港</td>
-				<td>华语男歌手</td>
-				<td>陈奕迅</td>
-			</tr>
-			<tr>
-				<td>3</td>
-				<td>台湾</td>
-				<td>华语男歌手</td>
-				<td>周杰伦</td>
-			</tr>
-			<tr>
-				<td>6</td>
-				<td>大陆</td>
-				<td>专辑合集</td>
-				<td>中国声音第一季</td>
-			</tr>
-			<tr>
-				<td>7</td>
-				<td>大陆</td>
-				<td>华语女歌手</td>
-				<td>曲婉婷</td>
-			</tr>
-			<tr>
-				<td>8</td>
-				<td>香港</td>
-				<td>华语乐队</td>
-				<td>BEYOND</td>
-			</tr>
-			<tr>
-				<td>9</td>
-				<td>香港</td>
-				<td>华语女歌手</td>
-				<td>邓紫棋</td>
-			</tr>
-			<tr>
-				<td>10</td>
-				<td>台湾</td>
-				<td>华语女歌手</td>
-				<td>阿桑</td>
-			</tr>
-			<tr>
-				<td>11</td>
-				<td>香港</td>
-				<td>华语女歌手</td>
-				<td>郑秀文</td>
-			</tr>
-			<tr>
-				<td>12</td>
-				<td>大陆</td>
-				<td>华语女歌手</td>
-				<td>庄心妍</td>
-			</tr>
-			<tr>
-				<td>15</td>
-				<td>香港</td>
-				<td>华语女歌手</td>
-				<td>杨千嬅</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
 			</tr>
 		</tbody>
 	</table>
 	<div id="pages" style="text-align: center;">
-		<select>
-			<option>每页10行</option>
-			<option>每页20行</option>
-			<option>每页50行</option>
-			<option>每页100行</option>
+		<select id="select_table">
+			<option value="10">每页10行</option>
+			<option value="20">每页20行</option>
+			<option value="50">每页50行</option>
+			<option value="100">每页100行</option>
 		</select>
-		<button>首页</button>
-		<button>上一页</button>
+		<button onclick="frist()">首页</button>
+		<button onclick="previous()">上一页</button>
 		<input id="page" value="" type="number"
 			style="text-align: center; width: 30px"> / 共<span id="count"></span>页
-		<button>下一页</button>
-		<button>尾页</button>
+		<button onclick="next()">下一页</button>
+		<button onclick="last()">尾页</button>
 	</div>
 	<h4>扩展功能</h4>
 	<ol>

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Properties;
 
 import com.yc.javaee.d1114.singer.bean.SqSinger;
+import com.yc.javaee.d1114.singer.dao.SqSingerDao;
 
 public class DBHelper {
 
@@ -52,7 +53,7 @@ public class DBHelper {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		Connection conn = getConnection();
-		System.out.println(conn);
+		System.out.println("conn:"+conn);
 		
 		List<SqSinger> list1 = selectList("select * from sq_singer where id < 30",
 				new ResultSetMapper<SqSinger>() {
@@ -73,8 +74,8 @@ public class DBHelper {
 			
 		});
 		
-		System.out.println(list1.size());
-		System.out.println(list1);
+		System.out.println("list1的size:"+list1.size());
+		System.out.println("list1:"+list1);
 		
 		
 		List<SqSinger> list2 = selectList("select * from sq_singer where id < 10",
@@ -84,15 +85,25 @@ public class DBHelper {
 					ss.setName(rs.getString("name"));
 					return null;
 		});
-		System.out.println(list2);	
+		System.out.println("list2:"+list2);	
+		
+		
+		SqSingerDao dao = new SqSingerDao();
+		List<SqSinger> list = dao.selectPage(1, 10);
+		for(SqSinger s : list) {
+			System.out.println(s.getId() + s.getName());
+		}
+		
 	}
 
 	/**
 	 * 
+	 * @param <T>
 	 * @param sql
+	 * @param callback
 	 * @param params
 	 * @return
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public static <T> List<T> selectList(
 			String sql, 
