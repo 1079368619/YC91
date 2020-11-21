@@ -24,6 +24,34 @@ public class SqSingerDao {
 		}
 	}
 	
+	public List<String> selectCategory(){
+		String sql = "select DISTINCT category as cg from sq_singer";
+		try {
+			List<String> category = DBHelper.selectList(sql, new ResultSetMapper<String>(){
+				@Override
+				public String map(ResultSet rs) throws SQLException {
+					return rs.getString("cg");
+				}
+				
+			});
+			return category;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public int deleteByid(int id){
+		String sql = "delete from sq_singer where id = ?";
+		int i = 0;
+		DBHelper db = new DBHelper();
+		try {
+			i = db.excuteDML(sql);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return i;
+	}
+	
 	public int selectCount() {
 		String sql = "select count(*) cnt from sq_singer";
 		try {

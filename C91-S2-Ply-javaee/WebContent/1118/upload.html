@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>文件上传</title>
+</head>
+<body>
+
+<form action="/C91-S2-Ply-javaee/upload.s" method="post" enctype="multipart/form-data">
+	<!--  -->
+	<input type="file" name="myfile">
+	<button>上传</button>
+</form>
+
+<h3>AJAX提交</h3>
+<script type="text/javascript" src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<form id="ff">
+	<!--  -->
+	<input type="file" name="myfile">
+	<button type="button" onclick="upload()">上传</button>
+</form>
+<script type="text/javascript">
+function upload(){
+	var filedata = new FormData(ff);
+	$.ajax({
+		url : "/C91-S2-Ply-javaee/upload.s",
+		type : "POST",
+		data : filedata,
+		contentType : false,
+		processData : false,
+		success : function(data){
+			alert(data);
+		}
+	})
+}
+</script>
+
+<h3>上传用户头像</h3>
+<form id="headform">
+	<!--  -->
+	<img alt="" src="" id="headimage" style="height:180px;width:120px;border:1px #666 soild;"> 
+	<input type="file" name="myfile">
+	<button type="button" onclick="uploadImg()">上传</button>
+</form>
+<script type="text/javascript">
+function uploadImg(){
+	var filedata = new FormData(headform);
+	$.ajax({
+		url : "/C91-S2-Ply-javaee/upload.s",
+		type : "POST",
+		data : filedata,
+		contentType : false,
+		processData : false,
+		success : function(data){
+			data = JSON.parse(data);
+			headimage.src = "/C91-S2-Ply-javaee" + data.path;
+			alert(data.msg);
+		}
+	})
+}
+</script>
+</body>
+</html>

@@ -93,11 +93,14 @@ public class DBHelper {
 		for(SqSinger s : list) {
 			System.out.println(s.getId() + s.getName());
 		}
+		List<String> list3 = dao.selectCategory();
+		for(String s : list3) {
+			System.out.println(s);
+		}
 		
 	}
 
 	/**
-	 * 
 	 * @param <T>
 	 * @param sql
 	 * @param callback
@@ -130,6 +133,25 @@ public class DBHelper {
 		}
 	}
 	
+	public int excuteDML(String sql, Object...params) throws SQLException {
+		// 获取Connection连接对象
+		Connection conn = null;
+		// 获取编译执行对象
+		PreparedStatement ps = null;
+		int result = 0;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			conn.close();
+		}
+		return result;
+	}
+
+
 	/**
 	 * 
 	 * @param <T>
