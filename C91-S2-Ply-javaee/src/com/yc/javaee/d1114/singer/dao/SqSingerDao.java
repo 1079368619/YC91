@@ -45,7 +45,7 @@ public class SqSingerDao {
 		int i = 0;
 		DBHelper db = new DBHelper();
 		try {
-			i = db.excuteDML(sql);
+			i = db.excuteDML(sql, id);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

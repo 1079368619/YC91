@@ -30,7 +30,9 @@ function login() {
 	});
 }
 
-
+/**
+ * post 函数就是对 之前 doAjax 做的简单的封装， 添加一个回调函数的参数，其余的代码不变
+ */
 function post(url, callback) {
 	try {
 		xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
@@ -61,8 +63,8 @@ function post(url, callback) {
 		账号：<input id="account" value=""><br>
 		密码：<input id="pwd"><br>
 		验证码：
-			<img alt="" src="../../VerifyCodeServlet" height="20px"
-				onclick="this.src='../../VerifyCodeServlet?a=' + new Date(); time=10">
+			<img src="../../VerifyCodeServlet" height="20px"
+				onclick="this.src='../../VerifyCodeServlet?a=' + new Date(); time=60">
 			<input id="vcode" maxlength="4" placeholder="点击图片更换验证码">
 			<span id="timer">10</span><br>
 		<button type="button" onclick="login()">登录</button>
@@ -71,7 +73,7 @@ function post(url, callback) {
 </body>
 <script type="text/javascript">
 //
-var time = 10;
+var time = 60;
 
 setInterval(function(){
 	if(time > 0){
@@ -82,13 +84,14 @@ setInterval(function(){
 	}
 }, 1000)
 
-//
-var la = document.cookie.replace(/.*loginedAccount=(\w+).*/,"$1");
+/* 当打开页面时， 检查 cookie 是否有 loginedAccount  "loginedAccount=aaaa; a=1"  */
+//通过正则表达式，获取cookie中存储的值
+var la = document.cookie.replace(/.*loginedAccount=(\w*).*/, "$1");
 
 if(la){
-	//
+	//输出该值
 	console.info("=========="+la);
-	account.value=la;
+	account.value = la;
 }
 </script>
 </html>

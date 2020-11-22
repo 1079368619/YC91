@@ -97,7 +97,13 @@ public class DBHelper {
 		for(String s : list3) {
 			System.out.println(s);
 		}
-		
+		int result = dao.deleteByid(789);
+		if (result > 0) {
+			System.out.println("更新成功");
+		} else {
+			System.out.println("更新失败");
+
+		}
 	}
 
 	/**

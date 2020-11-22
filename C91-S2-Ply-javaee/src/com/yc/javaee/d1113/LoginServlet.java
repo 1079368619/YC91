@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
 		//
 		long time = System.currentTimeMillis() - svtime.getTime();
 		//
-		if( (time / 1000) > 10) {
+		if( (time / 1000) > 60) {
 			response.getWriter().append("-2");
 			return;
 		}
